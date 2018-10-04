@@ -9,11 +9,6 @@ class Form extends React.Component {
           name="city"
           placeholder="City..."
         />
-        <input
-          type="text"
-          name="country"
-          placeholder="Country..."
-        />
         <button>Get Weather</button>
       </form>
     )
