@@ -4,9 +4,16 @@ import Form from './components/form';
 import Weather from './components/weather';
 
 class App extends React.Component {
+  state = {
+    temperature: undefined,
+    // city: undefined,
+    // country: undefined,
+    // humidity: undefined,
+    // weatherState: undefined,
+    // weatherStateAbbr: undefined
+  }
 
   getWeather = async(e) => {
-    try {
     e.preventDefault();
 
     // user input of city
@@ -26,10 +33,23 @@ class App extends React.Component {
     const apiCallLocation = await fetch(proxyUrl + locationUrl);
     const locationData = await apiCallLocation.json();
 
-    console.log('success: ', locationData);
-    } catch (err) {
-      console.log(err)
-    }
+    let currentWeather = locationData.consolidated_weather[0];
+
+    // console.log('current temp: ', currentWeather.the_temp);
+
+    // console.log(locationData);
+    // console.log('temp: ', currentWeather.the_temp);
+    // console.log('locationData: ', locationData.parent.title);
+
+    this.setState({
+      temperature: currentWeather.the_temp,
+      // city: locationData.title,
+      // country: locationData.parent.title,
+      // humidity: currentWeather.humidity,
+      // weatherState: currentWeather.weather_state_name,
+      // weatherStateAbbr: currentWeather.weather_state_abbr
+    });
+    console.log('stateTemp: ', this.state.temperature);
   }
 
   render() {
@@ -37,7 +57,14 @@ class App extends React.Component {
       <div>
         <Titles />
         <Form getWeather={this.getWeather} />
-        <Weather />
+        <Weather
+          temperature = {this.state.temperature}
+          // city = {this.state.city}
+          // country = {this.state.country}
+          // humidity = {this.state.humidity}
+          // weatherState = {this.state.weatherState}
+          // weatherStateAbbr = {this.state.weatherStateAbbr}
+          />
       </div>
     )
   }
